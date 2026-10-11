@@ -6,6 +6,9 @@ import { HomePage } from "@/components/landing/HomePage";
 import { getCompanyConfig } from "@/lib/companies";
 import { brand } from "@/lib/brand";
 
+// Company configs are loaded at request time (AI onboarding can add slugs).
+export const instant = false;
+
 export async function generateMetadata({
   params,
 }: {

@@ -5,7 +5,8 @@ import {
   normalizeHttpUrl,
 } from "@/lib/generate-company";
 
-export const runtime = "nodejs";
+// Node is the default Route Handler runtime; `export const runtime` is
+// incompatible with nextConfig.cacheComponents.
 export const maxDuration = 60;
 
 type Body = { url?: string };

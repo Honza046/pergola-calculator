@@ -5,6 +5,9 @@ import { notFound } from "next/navigation";
 import { Calculator } from "@/components/calculator/Calculator";
 import { getCompanyConfig } from "@/lib/companies";
 
+// Company configs are loaded at request time (AI onboarding can add slugs).
+export const instant = false;
+
 export const metadata: Metadata = {
   title: "Kalkulačka poptávky",
   robots: { index: false, follow: false },
