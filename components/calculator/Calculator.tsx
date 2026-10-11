@@ -13,9 +13,7 @@ import { Step5Contact } from "@/components/calculator/Step5Contact";
 import { SuccessScreen } from "@/components/calculator/SuccessScreen";
 import { Button } from "@/components/ui/button";
 import { tryCalculatePrice } from "@/lib/calculator";
-import { brand } from "@/lib/brand";
 import { initialDraft } from "@/lib/draft";
-import { formatCzkSpan } from "@/lib/format";
 import { buildLeadRequest, readLeadResponse } from "@/lib/lead";
 import { issuesByField, locationSchema } from "@/lib/schemas";
 import { widgetMessageSource } from "@/lib/widget";
@@ -29,6 +27,8 @@ const nextLabels: Record<StepId, string> = {
   5: "Odeslat poptávku",
 };
 
+const LOCK_PRICE_STORAGE_KEY = "calculator-lock-price";
+
 export function Calculator({ variant = "landing" }: { variant?: "landing" | "embed" }) {
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
@@ -40,12 +40,30 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
   const [showErrors, setShowErrors] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [submitError, setSubmitError] = useState<string | null>(null);
+  const [lockPriceUntilContact, setLockPriceUntilContact] = useState(false);
   const [submission, setSubmission] = useState<{
     draft: CalculatorDraft;
     leadId: string;
     quote: NonNullable<ReturnType<typeof tryCalculatePrice>>;
     demo: boolean;
   } | null>(null);
+
+  useEffect(() => {
+    try {
+      setLockPriceUntilContact(window.localStorage.getItem(LOCK_PRICE_STORAGE_KEY) === "1");
+    } catch {
+      /* ignore */
+    }
+  }, []);
+
+  const setLockPricePreference = useCallback((locked: boolean) => {
+    setLockPriceUntilContact(locked);
+    try {
+      window.localStorage.setItem(LOCK_PRICE_STORAGE_KEY, locked ? "1" : "0");
+    } catch {
+      /* ignore */
+    }
+  }, []);
 
   const quote = useMemo(
     () =>
@@ -172,17 +190,10 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
     setSubmission(null);
   }
 
-  const priceLabel = quote ? formatCzkSpan(quote.minPrice, quote.maxPrice) : "—";
   const shell = variant === "landing";
 
   return (
     <section ref={sectionRef} id={shell ? "kalkulacka" : undefined} className="w-full">
-      {variant === "embed" ? (
-        <p className="pb-1.5 text-center text-[11px] text-muted">
-          Orientační kalkulace · {brand.name}
-        </p>
-      ) : null}
-
       <div className="rounded-xl border border-line bg-card">
         {submission ? (
           <div className="p-4 sm:p-5">
@@ -202,17 +213,27 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
                 <p className="min-w-0 truncate text-xs text-muted">
                   <SummaryLine draft={draft} quote={quote} step={step} />
                 </p>
-                {step >= 5 && quote ? (
-                  <p className="shrink-0 text-right">
-                    <span className="block text-[10px] tracking-wide text-muted uppercase">bez DPH</span>
-                    <span className="text-sm font-medium tabular-nums leading-none sm:text-base">
-                      {priceLabel}
-                    </span>
-                  </p>
-                ) : (
+                {/* Step 5 shows the price in the contact card — keep the shell header free of a duplicate. */}
+                {step < 5 ? (
                   <p className="shrink-0 text-right text-[11px] text-muted">Cena na konci</p>
-                )}
+                ) : null}
               </div>
+              {step === 5 ? (
+                <label className="mt-1 flex cursor-pointer items-center gap-1.5 text-[10px] text-muted select-none">
+                  <input
+                    type="checkbox"
+                    className="size-3 accent-forest"
+                    checked={lockPriceUntilContact}
+                    onChange={(event) => setLockPricePreference(event.target.checked)}
+                  />
+                  <span>
+                    Zamknout cenu za kontakt
+                    <span className="ml-1 text-muted/80">
+                      (demo · {lockPriceUntilContact ? "cena po kontaktu" : "ukázat cenu hned"})
+                    </span>
+                  </span>
+                </label>
+              ) : null}
             </div>
 
             <div className="px-3 py-1.5 sm:px-3.5">
@@ -297,6 +318,7 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
                       contact={draft.contact}
                       quote={quote}
                       structureType={draft.structureType}
+                      lockPriceUntilContact={lockPriceUntilContact}
                       onContactChange={updateContact}
                       onSubmit={submit}
                     />

@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 import { Field } from "@/components/calculator/fields";
@@ -13,16 +13,36 @@ import { formatCzkSpan } from "@/lib/format";
 import { contactSchema, type ContactFormValues } from "@/lib/schemas";
 import type { ContactDetails, PriceQuote, StructureType } from "@/types/calculator";
 
+const trustBullets = [
+  "Cena zahrnuje orientační montáž a dopravu",
+  "Zaměření technikem na místě zdarma",
+  "Nezávazná poptávka, odpovíme do 24 hodin",
+] as const;
+
+/** Unlock when jméno + (telefon nebo e-mail) look filled enough for a demo reveal. */
+function contactUnlocksPrice(values: Pick<ContactFormValues, "fullName" | "phone" | "email">) {
+  const fullName = values.fullName?.trim() ?? "";
+  const hasName =
+    fullName.length >= 3 && fullName.split(/\s+/).filter(Boolean).length >= 2;
+  const phoneDigits = (values.phone ?? "").replace(/\D/g, "");
+  const hasPhone = phoneDigits.length >= 9;
+  const email = values.email?.trim() ?? "";
+  const hasEmail = email.includes("@") && email.length >= 5;
+  return hasName && (hasPhone || hasEmail);
+}
+
 export function Step5Contact({
   contact,
   quote,
   structureType,
+  lockPriceUntilContact = false,
   onContactChange,
   onSubmit,
 }: {
   contact: ContactDetails;
   quote: PriceQuote;
   structureType: StructureType | null;
+  lockPriceUntilContact?: boolean;
   onContactChange: (contact: ContactDetails) => void;
   onSubmit: (contact: ContactDetails, hpField: string) => Promise<void>;
 }) {
@@ -39,6 +59,18 @@ export function Step5Contact({
     defaultValues: contact,
     mode: "onSubmit",
   });
+
+  const watched = useWatch({
+    control,
+    name: ["fullName", "phone", "email"],
+  });
+  const priceUnlocked =
+    !lockPriceUntilContact ||
+    contactUnlocksPrice({
+      fullName: watched[0] ?? "",
+      phone: watched[1] ?? "",
+      email: watched[2] ?? "",
+    });
 
   function syncContact() {
     const values = getValues();
@@ -77,11 +109,35 @@ export function Step5Contact({
           </div>
         ) : null}
 
-        <div className="rounded-lg border border-line bg-paper px-3 py-2.5">
-          <p className="text-[10px] font-medium tracking-wide text-muted uppercase">Orientační pásmo bez DPH</p>
-          <p className="mt-0.5 text-xl font-semibold tabular-nums leading-tight sm:text-2xl">
-            {formatCzkSpan(quote.minPrice, quote.maxPrice)}
+        <div className="flex flex-col rounded-lg border border-line bg-paper px-3 py-2.5">
+          <p className="text-[10px] font-medium tracking-wide text-muted uppercase">
+            Orientační pásmo bez DPH
           </p>
+          <div className="relative mt-0.5">
+            <p
+              className={`text-xl font-semibold tabular-nums leading-tight sm:text-2xl ${
+                priceUnlocked ? "" : "select-none blur-[6px]"
+              }`}
+              aria-hidden={!priceUnlocked}
+            >
+              {formatCzkSpan(quote.minPrice, quote.maxPrice)}
+            </p>
+            {!priceUnlocked ? (
+              <p className="mt-1 text-[11px] leading-snug text-ink">
+                Vyplňte kontakt pro odemčení ceny
+              </p>
+            ) : null}
+          </div>
+          <ul className="mt-2 flex flex-col gap-1 border-t border-line/70 pt-2">
+            {trustBullets.map((text) => (
+              <li key={text} className="flex items-start gap-1.5 text-[11px] leading-snug text-muted">
+                <span className="mt-px shrink-0 font-medium text-forest" aria-hidden="true">
+                  ✓
+                </span>
+                <span>{text}</span>
+              </li>
+            ))}
+          </ul>
         </div>
       </div>
 
