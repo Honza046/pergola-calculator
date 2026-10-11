@@ -1,0 +1,37 @@
+{
+  "companies": [
+    {
+      "slug": "atelier-venku",
+      "companyName": "Ateliér venku",
+      "city": "Brno",
+      "phone": "+420 777 120 340",
+      "email": "poptavka@atelier-venku.cz",
+      "logoUrl": "",
+      "primaryColor": "#1a1917",
+      "enabledCategories": ["pergola", "winter_garden", "carport"],
+      "enabledTypes": [
+        "bioclimatic",
+        "glass",
+        "polycarbonate",
+        "fixed_roof",
+        "fabric_sliding",
+        "fabric_rolling",
+        "simple",
+        "photovoltaic",
+        "winter_garden",
+        "winter_insulated",
+        "carport",
+        "carport_trapez",
+        "carport_thermo"
+      ],
+      "enabledAddons": [
+        "led",
+        "screens",
+        "sensors",
+        "heaterPrep",
+        "glassWalls",
+        "curtains"
+      ]
+    }
+  ]
+}

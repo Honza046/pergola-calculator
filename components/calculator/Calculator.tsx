@@ -16,8 +16,10 @@ import { tryCalculatePrice } from "@/lib/calculator";
 import { initialDraft } from "@/lib/draft";
 import { buildLeadRequest, readLeadResponse } from "@/lib/lead";
 import { issuesByField, locationSchema } from "@/lib/schemas";
+import { brandThemeStyle, resolveCompanyConfig } from "@/lib/company-config";
 import { widgetMessageSource } from "@/lib/widget";
 import type { Anchoring, CalculatorDraft, ContactDetails, StepId, StructureType } from "@/types/calculator";
+import type { CompanyConfig } from "@/types/company-config";
 
 const nextLabels: Record<StepId, string> = {
   1: "Další",
@@ -29,7 +31,14 @@ const nextLabels: Record<StepId, string> = {
 
 const LOCK_PRICE_STORAGE_KEY = "calculator-lock-price";
 
-export function Calculator({ variant = "landing" }: { variant?: "landing" | "embed" }) {
+export function Calculator({
+  variant = "landing",
+  config,
+}: {
+  variant?: "landing" | "embed";
+  config?: CompanyConfig | null;
+}) {
+  const brandConfig = resolveCompanyConfig(config);
   const reduceMotion = useReducedMotion();
   const sectionRef = useRef<HTMLElement>(null);
   const panelRef = useRef<HTMLDivElement>(null);
@@ -193,7 +202,12 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
   const shell = variant === "landing";
 
   return (
-    <section ref={sectionRef} id={shell ? "kalkulacka" : undefined} className="w-full">
+    <section
+      ref={sectionRef}
+      id={shell ? "kalkulacka" : undefined}
+      className="w-full"
+      style={brandThemeStyle(brandConfig)}
+    >
       <div className="rounded-xl border border-line bg-card">
         {submission ? (
           <div className="p-4 sm:p-5">
@@ -269,6 +283,7 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
                       structureType={draft.structureType}
                       anchoring={draft.anchoring}
                       showErrors={showErrors}
+                      config={brandConfig}
                       onStructureType={(structureType: StructureType | null) => {
                         setShowErrors(false);
                         setDraft((current) => ({ ...current, structureType }));
@@ -300,6 +315,7 @@ export function Calculator({ variant = "landing" }: { variant?: "landing" | "emb
                   {step === 3 ? (
                     <Step3Addons
                       addons={draft.addons}
+                      config={brandConfig}
                       onChange={(addons) => setDraft((current) => ({ ...current, addons }))}
                     />
                   ) : null}

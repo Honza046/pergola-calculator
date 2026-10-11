@@ -2,17 +2,21 @@
 
 import { Check } from "lucide-react";
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 import {
   anchoringCatalog,
   structureCatalog,
   structureGroupCatalog,
-  structureGroupsList,
-  structuresInGroup,
 } from "@/lib/catalog";
+import {
+  filterGroupsByConfig,
+  filterTypesByConfig,
+  resolveCompanyConfig,
+} from "@/lib/company-config";
 import { cn } from "@/lib/cn";
 import type { Anchoring, StructureGroup, StructureType } from "@/types/calculator";
+import type { CompanyConfig } from "@/types/company-config";
 
 export function Step1Type({
   structureType,
@@ -20,20 +24,40 @@ export function Step1Type({
   showErrors,
   onStructureType,
   onAnchoring,
+  config,
 }: {
   structureType: StructureType | null;
   anchoring: Anchoring | null;
   showErrors: boolean;
   onStructureType: (value: StructureType | null) => void;
   onAnchoring: (value: Anchoring | null) => void;
+  config?: CompanyConfig | null;
 }) {
-  const selectedGroup = structureType ? structureCatalog[structureType].group : "pergola";
+  const brandConfig = resolveCompanyConfig(config);
+  const groupsKey = brandConfig.enabledCategories.join(",");
+  const groups = useMemo(
+    () => filterGroupsByConfig(brandConfig),
+    // enabledCategories string is the meaningful identity for filtering
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [groupsKey],
+  );
+  const selectedGroup = structureType
+    ? structureCatalog[structureType].group
+    : (groups[0] ?? "pergola");
   const [group, setGroup] = useState<StructureGroup>(selectedGroup);
-  const items = structuresInGroup(group);
+  const items = filterTypesByConfig(brandConfig, group).map((id) => ({
+    id,
+    ...structureCatalog[id],
+  }));
 
   useEffect(() => {
-    if (structureType) setGroup(structureCatalog[structureType].group);
-  }, [structureType]);
+    if (structureType) {
+      const next = structureCatalog[structureType].group;
+      if (groups.includes(next)) setGroup(next);
+      return;
+    }
+    if (!groups.includes(group) && groups[0]) setGroup(groups[0]);
+  }, [structureType, groups, group]);
 
   return (
     <div className="flex flex-col gap-1.5">
@@ -43,19 +67,19 @@ export function Step1Type({
       </div>
 
       <div className="flex flex-wrap gap-0.5 rounded-lg border border-line bg-paper p-0.5">
-        {structureGroupsList.map((item) => {
-          const active = group === item.id;
+        {groups.map((id) => {
+          const active = group === id;
           return (
             <button
-              key={item.id}
+              key={id}
               type="button"
-              onClick={() => setGroup(item.id)}
+              onClick={() => setGroup(id)}
               className={cn(
                 "flex-1 rounded-md px-2 py-1 text-xs font-medium transition",
                 active ? "bg-forest text-white" : "text-muted hover:text-ink",
               )}
             >
-              {structureGroupCatalog[item.id].short}
+              {structureGroupCatalog[id].short}
             </button>
           );
         })}

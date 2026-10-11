@@ -1,5 +1,6 @@
 import { brand } from "@/lib/brand";
 import { cn } from "@/lib/cn";
+import type { CompanyConfig } from "@/types/company-config";
 
 /** Značka fiktivní firmy — stylizovaná pergola. */
 export function LogoMark({ className }: { className?: string }) {
@@ -12,10 +13,7 @@ export function LogoMark({ className }: { className?: string }) {
       aria-hidden="true"
     >
       <rect width="40" height="40" rx="10" className="fill-forest" />
-      <path
-        d="M10 28V14.5h3V28h-3Zm17 0V14.5h3V28h-3Z"
-        className="fill-white"
-      />
+      <path d="M10 28V14.5h3V28h-3Zm17 0V14.5h3V28h-3Z" className="fill-white" />
       <path
         d="M8 15.5 20 9l12 6.5"
         className="stroke-brass"
@@ -37,18 +35,33 @@ export function Logo({
   className,
   markClassName,
   wordmark = true,
+  config,
 }: {
   className?: string;
   markClassName?: string;
   wordmark?: boolean;
+  config?: CompanyConfig | null;
 }) {
+  const name = config?.companyName?.trim() || brand.name;
+  const logoUrl = config?.logoUrl?.trim();
+
   return (
     <span className={cn("inline-flex items-center gap-2.5", className)}>
-      <LogoMark className={markClassName} />
+      {logoUrl ? (
+        // External client logos — plain img avoids next/image remote config.
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={logoUrl}
+          alt=""
+          className={cn("size-9 rounded-lg object-contain", markClassName)}
+        />
+      ) : (
+        <LogoMark className={markClassName} />
+      )}
       {wordmark ? (
         <span className="leading-none">
           <span className="block font-display text-[1.05rem] font-semibold tracking-[-0.02em]">
-            {brand.name}
+            {name}
           </span>
           <span className="mt-0.5 block text-[10px] tracking-[0.14em] text-muted uppercase">
             Pergoly a terasy

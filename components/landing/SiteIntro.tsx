@@ -1,11 +1,14 @@
 import { brand } from "@/lib/brand";
+import { phoneToHref, resolveCompanyConfig } from "@/lib/company-config";
+import type { CompanyConfig } from "@/types/company-config";
 
-export function SiteIntro() {
+export function SiteIntro({ config }: { config?: CompanyConfig | null }) {
+  const brandConfig = resolveCompanyConfig(config);
+  const phoneHref = phoneToHref(brandConfig.phone);
+  const eyebrow = [brandConfig.companyName, brandConfig.city].filter(Boolean).join(" · ");
+
   return (
-    <section
-      id="uvod"
-      className="relative overflow-hidden rounded-xl border border-line bg-card"
-    >
+    <section id="uvod" className="relative overflow-hidden rounded-xl border border-line bg-card">
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
@@ -26,15 +29,11 @@ export function SiteIntro() {
       />
 
       <div className="relative px-4 py-5 sm:px-5 sm:py-6">
-        <p className="text-[11px] font-medium tracking-[0.16em] text-brass uppercase">
-          {brand.legalName} · {brand.city}
-        </p>
+        <p className="text-[11px] font-medium tracking-[0.16em] text-brass uppercase">{eyebrow}</p>
         <h1 className="mt-2 max-w-xl font-display text-[1.65rem] font-semibold tracking-[-0.03em] text-balance sm:text-[2rem]">
           {brand.headline}
         </h1>
-        <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted text-pretty">
-          {brand.intro}
-        </p>
+        <p className="mt-2 max-w-lg text-sm leading-relaxed text-muted text-pretty">{brand.intro}</p>
 
         <div className="mt-4 flex flex-wrap items-center gap-2">
           <a
@@ -43,12 +42,14 @@ export function SiteIntro() {
           >
             Spustit kalkulačku
           </a>
-          <a
-            href={brand.phoneHref}
-            className="inline-flex h-10 items-center rounded-md border border-line bg-card/80 px-3.5 text-sm font-medium text-ink hover:border-ink/25"
-          >
-            {brand.phoneDisplay}
-          </a>
+          {brandConfig.phone ? (
+            <a
+              href={phoneHref}
+              className="inline-flex h-10 items-center rounded-md border border-line bg-card/80 px-3.5 text-sm font-medium text-ink hover:border-ink/25"
+            >
+              {brandConfig.phone}
+            </a>
+          ) : null}
         </div>
 
         <ul className="mt-4 flex flex-wrap gap-x-4 gap-y-1 text-[11px] text-muted">

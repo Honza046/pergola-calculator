@@ -5,16 +5,28 @@ import Image from "next/image";
 
 import { optionCard } from "@/components/calculator/styles";
 import { addonCatalog, screenSidesLabel } from "@/lib/catalog";
+import { isAddonEnabled, resolveCompanyConfig } from "@/lib/company-config";
 import { cn } from "@/lib/cn";
 import type { Addons, ScreenSides } from "@/types/calculator";
+import type { CompanyConfig } from "@/types/company-config";
 
 export function Step3Addons({
   addons,
   onChange,
+  config,
 }: {
   addons: Addons;
   onChange: (addons: Addons) => void;
+  config?: CompanyConfig | null;
 }) {
+  const brandConfig = resolveCompanyConfig(config);
+  const showLed = isAddonEnabled(brandConfig.enabledAddons, "led");
+  const showScreens = isAddonEnabled(brandConfig.enabledAddons, "screens");
+  const showGlass = isAddonEnabled(brandConfig.enabledAddons, "glassWalls");
+  const showCurtains = isAddonEnabled(brandConfig.enabledAddons, "curtains");
+  const showSensors = isAddonEnabled(brandConfig.enabledAddons, "sensors");
+  const showHeater = isAddonEnabled(brandConfig.enabledAddons, "heaterPrep");
+
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-end justify-between gap-2">
@@ -23,81 +35,93 @@ export function Step3Addons({
       </div>
 
       <div className="grid gap-1 sm:grid-cols-2">
-        <ToggleCard
-          checked={addons.led}
-          title={addonCatalog.led.title}
-          description={addonCatalog.led.description}
-          image={addonCatalog.led.image}
-          onChange={(led) => onChange({ ...addons, led })}
-        />
+        {showLed ? (
+          <ToggleCard
+            checked={addons.led}
+            title={addonCatalog.led.title}
+            description={addonCatalog.led.description}
+            image={addonCatalog.led.image}
+            onChange={(led) => onChange({ ...addons, led })}
+          />
+        ) : null}
 
-        <div className={cn(optionCard(addons.screenSides > 0), "flex-row items-center gap-2 p-1.5")}>
-          <span className="relative size-12 shrink-0 overflow-hidden rounded-md bg-[#efe8dc] sm:size-14">
-            <Image
-              src={addonCatalog.screens.image}
-              alt={addonCatalog.screens.title}
-              fill
-              sizes="56px"
-              className="object-cover"
-            />
-          </span>
-          <div className="min-w-0 flex-1">
-            <p className="text-sm font-medium leading-snug">{addonCatalog.screens.title}</p>
-            <p className="text-[11px] text-muted">{screenSidesLabel(addons.screenSides)}</p>
-          </div>
-          <div className="flex shrink-0 items-center gap-0.5">
-            <button
-              type="button"
-              aria-label="Ubrat stranu rolety"
-              disabled={addons.screenSides === 0}
-              onClick={() => onChange({ ...addons, screenSides: clamp(addons.screenSides - 1) })}
-              className="grid size-7 place-items-center rounded-md border border-line disabled:opacity-40"
-            >
-              <Minus className="size-3.5" />
-            </button>
-            <span className="w-5 text-center text-sm font-medium" aria-live="polite">
-              {addons.screenSides}
+        {showScreens ? (
+          <div className={cn(optionCard(addons.screenSides > 0), "flex-row items-center gap-2 p-1.5")}>
+            <span className="relative size-12 shrink-0 overflow-hidden rounded-md bg-[#efe8dc] sm:size-14">
+              <Image
+                src={addonCatalog.screens.image}
+                alt={addonCatalog.screens.title}
+                fill
+                sizes="56px"
+                className="object-cover"
+              />
             </span>
-            <button
-              type="button"
-              aria-label="Přidat stranu rolety"
-              disabled={addons.screenSides === 3}
-              onClick={() => onChange({ ...addons, screenSides: clamp(addons.screenSides + 1) })}
-              className="grid size-7 place-items-center rounded-md border border-line disabled:opacity-40"
-            >
-              <Plus className="size-3.5" />
-            </button>
+            <div className="min-w-0 flex-1">
+              <p className="text-sm font-medium leading-snug">{addonCatalog.screens.title}</p>
+              <p className="text-[11px] text-muted">{screenSidesLabel(addons.screenSides)}</p>
+            </div>
+            <div className="flex shrink-0 items-center gap-0.5">
+              <button
+                type="button"
+                aria-label="Ubrat stranu rolety"
+                disabled={addons.screenSides === 0}
+                onClick={() => onChange({ ...addons, screenSides: clamp(addons.screenSides - 1) })}
+                className="grid size-7 place-items-center rounded-md border border-line disabled:opacity-40"
+              >
+                <Minus className="size-3.5" />
+              </button>
+              <span className="w-5 text-center text-sm font-medium" aria-live="polite">
+                {addons.screenSides}
+              </span>
+              <button
+                type="button"
+                aria-label="Přidat stranu rolety"
+                disabled={addons.screenSides === 3}
+                onClick={() => onChange({ ...addons, screenSides: clamp(addons.screenSides + 1) })}
+                className="grid size-7 place-items-center rounded-md border border-line disabled:opacity-40"
+              >
+                <Plus className="size-3.5" />
+              </button>
+            </div>
           </div>
-        </div>
+        ) : null}
 
-        <ToggleCard
-          checked={addons.glassWalls}
-          title={addonCatalog.glassWalls.title}
-          description={addonCatalog.glassWalls.description}
-          image={addonCatalog.glassWalls.image}
-          onChange={(glassWalls) => onChange({ ...addons, glassWalls })}
-        />
-        <ToggleCard
-          checked={addons.curtains}
-          title={addonCatalog.curtains.title}
-          description={addonCatalog.curtains.description}
-          image={addonCatalog.curtains.image}
-          onChange={(curtains) => onChange({ ...addons, curtains })}
-        />
-        <ToggleCard
-          checked={addons.sensors}
-          title={addonCatalog.sensors.title}
-          description={addonCatalog.sensors.description}
-          image={addonCatalog.sensors.image}
-          onChange={(sensors) => onChange({ ...addons, sensors })}
-        />
-        <ToggleCard
-          checked={addons.heaterPrep}
-          title={addonCatalog.heaterPrep.title}
-          description={addonCatalog.heaterPrep.description}
-          image={addonCatalog.heaterPrep.image}
-          onChange={(heaterPrep) => onChange({ ...addons, heaterPrep })}
-        />
+        {showGlass ? (
+          <ToggleCard
+            checked={addons.glassWalls}
+            title={addonCatalog.glassWalls.title}
+            description={addonCatalog.glassWalls.description}
+            image={addonCatalog.glassWalls.image}
+            onChange={(glassWalls) => onChange({ ...addons, glassWalls })}
+          />
+        ) : null}
+        {showCurtains ? (
+          <ToggleCard
+            checked={addons.curtains}
+            title={addonCatalog.curtains.title}
+            description={addonCatalog.curtains.description}
+            image={addonCatalog.curtains.image}
+            onChange={(curtains) => onChange({ ...addons, curtains })}
+          />
+        ) : null}
+        {showSensors ? (
+          <ToggleCard
+            checked={addons.sensors}
+            title={addonCatalog.sensors.title}
+            description={addonCatalog.sensors.description}
+            image={addonCatalog.sensors.image}
+            onChange={(sensors) => onChange({ ...addons, sensors })}
+          />
+        ) : null}
+        {showHeater ? (
+          <ToggleCard
+            checked={addons.heaterPrep}
+            title={addonCatalog.heaterPrep.title}
+            description={addonCatalog.heaterPrep.description}
+            image={addonCatalog.heaterPrep.image}
+            onChange={(heaterPrep) => onChange({ ...addons, heaterPrep })}
+          />
+        ) : null}
       </div>
     </div>
   );
