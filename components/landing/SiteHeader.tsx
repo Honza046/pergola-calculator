@@ -13,10 +13,16 @@ export function SiteHeader({ config }: { config?: CompanyConfig | null }) {
           <Logo markClassName="size-9" config={brandConfig} />
         </a>
         <div className="flex shrink-0 items-center gap-2 sm:gap-3">
+          <a
+            href="/admin/generator"
+            className="hidden text-xs font-medium text-brass hover:text-ink sm:inline"
+          >
+            AI generátor
+          </a>
           {brandConfig.phone ? (
             <a
               href={phoneHref}
-              className="hidden text-xs font-medium text-muted tabular-nums hover:text-ink sm:inline"
+              className="hidden text-xs font-medium text-muted tabular-nums hover:text-ink md:inline"
             >
               {brandConfig.phone}
             </a>

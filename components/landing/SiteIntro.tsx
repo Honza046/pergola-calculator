@@ -42,6 +42,12 @@ export function SiteIntro({ config }: { config?: CompanyConfig | null }) {
           >
             Spustit kalkulačku
           </a>
+          <a
+            href="/admin/generator"
+            className="inline-flex h-10 items-center rounded-md border border-line bg-card/80 px-3.5 text-sm font-medium text-ink hover:border-ink/25"
+          >
+            Vytvořit pro jinou firmu
+          </a>
           {brandConfig.phone ? (
             <a
               href={phoneHref}
@@ -57,6 +63,17 @@ export function SiteIntro({ config }: { config?: CompanyConfig | null }) {
           <li>{brand.responseTime}</li>
           <li>{brand.areaServed}</li>
         </ul>
+
+        <p className="mt-3 text-[11px] leading-relaxed text-muted">
+          AI Onboarding: z URL webu klienta vygenerujete branded kalkulačku a embed kód.{" "}
+          <a href="/admin/generator" className="font-medium text-ink underline underline-offset-2">
+            Otevřít generátor
+          </a>
+          {" · "}
+          <a href="/c/atelier-venku" className="font-medium text-ink underline underline-offset-2">
+            Ukázka /c/atelier-venku
+          </a>
+        </p>
       </div>
     </section>
   );
