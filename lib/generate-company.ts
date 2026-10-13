@@ -1,3 +1,4 @@
+import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { createOpenAI } from "@ai-sdk/openai";
 import { generateText, Output, type LanguageModel } from "ai";
 import { z } from "zod";
@@ -20,7 +21,7 @@ const llmSchema = z.object({
   email: z.string().describe("Kontaktní e-mail, prázdný pokud není"),
   primaryColor: z
     .string()
-    .describe("Hex barva značky (#RRGGBB), jinak #1a1917"),
+    .describe("Hex barva značky (#RRGGBB), jinak #234836"),
   enabledCategories: z
     .array(z.string())
     .describe("Kategorie: pergola | winter_garden | carport (nebo české aliasy)"),
@@ -165,12 +166,19 @@ ${signals.text}`,
 
 function resolveLanguageModel(): LanguageModel | string {
   if (process.env.AI_GATEWAY_API_KEY) {
-    return "openai/gpt-4o-mini";
+    return "google/gemini-2.5-flash";
+  }
+  const geminiKey =
+    process.env.GOOGLE_GENERATIVE_AI_API_KEY || process.env.GEMINI_API_KEY;
+  if (geminiKey) {
+    return createGoogleGenerativeAI({ apiKey: geminiKey })("gemini-2.5-flash");
   }
   if (process.env.OPENAI_API_KEY) {
     return createOpenAI({ apiKey: process.env.OPENAI_API_KEY })("gpt-4o-mini");
   }
-  throw new Error("Chybí AI_GATEWAY_API_KEY nebo OPENAI_API_KEY.");
+  throw new Error(
+    "Chybí GOOGLE_GENERATIVE_AI_API_KEY, AI_GATEWAY_API_KEY nebo OPENAI_API_KEY.",
+  );
 }
 
 function uniqueMapped<T extends string>(
@@ -184,7 +192,7 @@ function uniqueMapped<T extends string>(
 
 function sanitizeHex(value: string) {
   const match = value.trim().match(/^#?[0-9a-fA-F]{6}$/);
-  if (!match) return "#1a1917";
+  if (!match) return "#234836";
   return value.startsWith("#") ? value : `#${value}`;
 }
 

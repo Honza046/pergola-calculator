@@ -56,7 +56,7 @@ export function Step4Location({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <h2 className="text-base font-semibold tracking-tight">Místo a termín</h2>
+      <h2 className="font-display text-lg font-semibold tracking-tight">Místo a termín</h2>
 
       <div className="grid gap-1.5 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field id="location-city" label="Město" error={errors.city}>
@@ -108,7 +108,9 @@ export function Step4Location({
                 className={cn(
                   "rounded-lg border px-2.5 py-1.5 text-left text-sm transition",
                   "focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:outline-none",
-                  active ? "border-ink shadow-[0_0_0_1px_#141311]" : "border-line hover:border-ink/25",
+                  active
+                    ? "border-forest shadow-[2px_2px_0_rgba(35,72,54,0.18)]"
+                    : "border-line hover:border-forest/35",
                 )}
               >
                 <span className="block font-medium leading-snug">{item.title}</span>
@@ -138,7 +140,7 @@ export function Step4Location({
           void addFiles(event.dataTransfer.files);
         }}
         className={cn(
-          "rounded-xl border border-dashed px-3 py-2.5",
+          "rounded-sm border border-dashed px-3 py-2.5",
           dragging ? "border-forest bg-moss" : "border-line",
         )}
       >

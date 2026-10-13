@@ -12,9 +12,14 @@ export const maxDuration = 60;
 type Body = { url?: string };
 
 export async function POST(request: Request) {
-  if (!process.env.AI_GATEWAY_API_KEY && !process.env.OPENAI_API_KEY) {
+  if (
+    !process.env.AI_GATEWAY_API_KEY &&
+    !process.env.GOOGLE_GENERATIVE_AI_API_KEY &&
+    !process.env.GEMINI_API_KEY &&
+    !process.env.OPENAI_API_KEY
+  ) {
     return jsonError(
-      "Chybí AI_GATEWAY_API_KEY nebo OPENAI_API_KEY v prostředí.",
+      "Chybí GOOGLE_GENERATIVE_AI_API_KEY (nebo AI_GATEWAY_API_KEY / OPENAI_API_KEY) v prostředí.",
       503,
     );
   }

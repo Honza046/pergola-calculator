@@ -7,8 +7,12 @@
       "phone": "+420 777 120 340",
       "email": "poptavka@atelier-venku.cz",
       "logoUrl": "",
-      "primaryColor": "#1a1917",
-      "enabledCategories": ["pergola", "winter_garden", "carport"],
+      "primaryColor": "#234836",
+      "enabledCategories": [
+        "pergola",
+        "winter_garden",
+        "carport"
+      ],
       "enabledTypes": [
         "bioclimatic",
         "glass",
@@ -31,6 +35,98 @@
         "heaterPrep",
         "glassWalls",
         "curtains"
+      ]
+    },
+    {
+      "slug": "alux",
+      "companyName": "ALUX",
+      "city": "",
+      "phone": "+420 727 982 882",
+      "email": "poptavky@aluxpergoly.cz",
+      "logoUrl": "https://aluxpergoly.cz/wp-content/uploads/alux-pergoly-official-white.png",
+      "primaryColor": "#234836",
+      "enabledCategories": [
+        "pergola",
+        "carport",
+        "winter_garden"
+      ],
+      "enabledTypes": [
+        "bioclimatic",
+        "glass",
+        "polycarbonate",
+        "simple",
+        "winter_garden",
+        "photovoltaic",
+        "carport",
+        "carport_trapez",
+        "carport_thermo"
+      ],
+      "enabledAddons": [
+        "glassWalls",
+        "screens",
+        "led",
+        "heaterPrep"
+      ]
+    },
+    {
+      "slug": "alux-2",
+      "companyName": "ALUX",
+      "city": "",
+      "phone": "+420 727 982 882",
+      "email": "poptavky@aluxpergoly.cz",
+      "logoUrl": "https://aluxpergoly.cz/wp-content/uploads/alux-pergoly-official-white.png",
+      "primaryColor": "#234836",
+      "enabledCategories": [
+        "pergola",
+        "winter_garden",
+        "carport"
+      ],
+      "enabledTypes": [
+        "bioclimatic",
+        "glass",
+        "polycarbonate",
+        "simple",
+        "fixed_roof",
+        "photovoltaic",
+        "winter_garden",
+        "carport",
+        "carport_trapez",
+        "carport_thermo"
+      ],
+      "enabledAddons": [
+        "led",
+        "screens",
+        "glassWalls",
+        "heaterPrep"
+      ]
+    },
+    {
+      "slug": "sun-system",
+      "companyName": "SUN SYSTEM",
+      "city": "Hodonín",
+      "phone": "+420 518 324 833",
+      "email": "poptavka@sunsystem.cz",
+      "logoUrl": "https://www.sunsystem.cz/assets/img/favicon.ico",
+      "primaryColor": "#234836",
+      "enabledCategories": [
+        "pergola",
+        "winter_garden",
+        "carport"
+      ],
+      "enabledTypes": [
+        "bioclimatic",
+        "polycarbonate",
+        "fixed_roof",
+        "winter_garden",
+        "winter_insulated",
+        "carport"
+      ],
+      "enabledAddons": [
+        "led",
+        "screens",
+        "sensors",
+        "heaterPrep",
+        "glassWalls"
       ]
     }
   ]

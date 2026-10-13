@@ -4,7 +4,7 @@ export const brand = {
   tagline: "Pergoly, zimní zahrady a přístřešky na míru",
   headline: "Orientační cena pergoly za pár minut",
   intro:
-    "Vyberte typ, rozměry a doplňky. Hned uvidíte pásmo bez DPH a můžete si rezervovat zaměření zdarma.",
+    "Ukázka interaktivní poptávkové kalkulačky pro pergoly a přístřešky. Firma si ji později nechá upravit na vlastní nabídku, ceny a branding.",
   areaServed: "Celá Česká republika",
   responseTime: "Odpověď do 24 hodin v pracovní dny",
   measurement: "Zaměření zdarma",

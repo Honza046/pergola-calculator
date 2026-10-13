@@ -30,7 +30,7 @@ export function Step3Addons({
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-end justify-between gap-2">
-        <h2 className="text-base font-semibold tracking-tight">Doplňky</h2>
+        <h2 className="font-display text-lg font-semibold tracking-tight">Doplňky</h2>
         <p className="text-[11px] text-muted">Ukázkový výběr — ceny na míru</p>
       </div>
 

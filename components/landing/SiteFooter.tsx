@@ -26,7 +26,7 @@ export function SiteFooter({ config }: { config?: CompanyConfig | null }) {
             </p>
           </div>
         </div>
-        <p className="text-[11px]">Kalkulačka na míru · {brandConfig.city || "ČR"}</p>
+        <p className="text-[11px]">Ukázková kalkulačka · připraveno k úpravě na míru</p>
       </div>
     </footer>
   );

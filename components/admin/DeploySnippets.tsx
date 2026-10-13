@@ -22,7 +22,7 @@ export function DeploySnippets({
 
   const floatingButton = `<!-- Plovoucí tlačítko → modal s kalkulačkou -->
 <button id="pergola-calc-open" type="button"
-  style="position:fixed;right:20px;bottom:20px;z-index:9999;padding:12px 18px;border:0;border-radius:10px;background:#1a1917;color:#fff;font:600 14px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)">
+  style="position:fixed;right:20px;bottom:20px;z-index:9999;padding:12px 18px;border:0;border-radius:10px;background:#234836;color:#fff;font:600 14px/1.2 system-ui,sans-serif;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,.18)">
   Spočítat cenu
 </button>
 <div id="pergola-calc-modal" hidden

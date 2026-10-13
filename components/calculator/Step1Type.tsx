@@ -50,33 +50,41 @@ export function Step1Type({
     ...structureCatalog[id],
   }));
 
+  // Keep tab in sync when selection changes from outside (e.g. reset), not when browsing tabs.
   useEffect(() => {
-    if (structureType) {
-      const next = structureCatalog[structureType].group;
-      if (groups.includes(next)) setGroup(next);
+    if (!structureType) {
+      if (!groups.includes(group) && groups[0]) setGroup(groups[0]);
       return;
     }
-    if (!groups.includes(group) && groups[0]) setGroup(groups[0]);
-  }, [structureType, groups, group]);
+    const next = structureCatalog[structureType].group;
+    if (groups.includes(next)) setGroup(next);
+  }, [structureType, groups]); // eslint-disable-line react-hooks/exhaustive-deps -- ignore local group while browsing
+
+  function selectGroup(id: StructureGroup) {
+    setGroup(id);
+    if (structureType && structureCatalog[structureType].group !== id) {
+      onStructureType(null);
+    }
+  }
 
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-end justify-between gap-2">
-        <h2 className="text-base font-semibold tracking-tight">Typ konstrukce</h2>
+        <h2 className="font-display text-lg font-semibold tracking-tight">Typ konstrukce</h2>
         <p className="text-[11px] text-muted">{items.length} varianty</p>
       </div>
 
-      <div className="flex flex-wrap gap-0.5 rounded-lg border border-line bg-paper p-0.5">
+      <div className="flex flex-wrap gap-0.5 rounded-sm border border-line bg-moss/50 p-0.5">
         {groups.map((id) => {
           const active = group === id;
           return (
             <button
               key={id}
               type="button"
-              onClick={() => setGroup(id)}
+              onClick={() => selectGroup(id)}
               className={cn(
-                "flex-1 rounded-md px-2 py-1 text-xs font-medium transition",
-                active ? "bg-forest text-white" : "text-muted hover:text-ink",
+                "flex-1 rounded-[3px] px-2 py-1.5 text-xs font-medium transition",
+                active ? "bg-forest text-white" : "text-muted hover:bg-card hover:text-ink",
               )}
             >
               {structureGroupCatalog[id].short}
@@ -97,7 +105,9 @@ export function Step1Type({
               className={cn(
                 "relative flex w-full flex-col overflow-hidden rounded-lg border bg-white text-left transition",
                 "focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:outline-none",
-                active ? "border-ink shadow-[0_0_0_1px_#141311]" : "border-line hover:border-ink/30",
+                active
+                  ? "border-forest shadow-[2px_2px_0_rgba(35,72,54,0.2)]"
+                  : "border-line hover:border-forest/35",
               )}
             >
               <span className="relative block aspect-[2/1] w-full overflow-hidden bg-[#efe8dc]">
@@ -134,7 +144,9 @@ export function Step1Type({
                 className={cn(
                   "rounded-lg border bg-white px-2.5 py-1.5 text-left text-xs transition sm:text-sm",
                   "focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:outline-none",
-                  active ? "border-ink shadow-[0_0_0_1px_#141311]" : "border-line hover:border-ink/25",
+                  active
+                    ? "border-forest shadow-[2px_2px_0_rgba(35,72,54,0.2)]"
+                    : "border-line hover:border-forest/35",
                 )}
               >
                 <span className="block font-medium leading-snug">{anchoringCatalog[id].title}</span>
@@ -157,8 +169,8 @@ function ChoiceMark({ active }: { active: boolean }) {
   return (
     <span
       className={cn(
-        "absolute top-1 right-1 z-10 grid size-4 place-items-center rounded-full border shadow-sm",
-        active ? "border-forest bg-forest text-white" : "border-white/80 bg-white/90",
+        "absolute top-1 right-1 z-10 grid size-4 place-items-center rounded-[3px] border shadow-sm",
+        active ? "border-forest bg-forest text-white" : "border-white/80 bg-card/90",
       )}
       aria-hidden="true"
     >

@@ -34,12 +34,12 @@ export function SuccessScreen({
   return (
     <div className="mx-auto flex max-w-lg flex-col gap-4">
       <div className="flex items-start gap-3">
-        <span className="grid size-10 shrink-0 place-items-center rounded-full bg-moss text-forest">
+        <span className="grid size-10 shrink-0 place-items-center rounded-[3px] bg-moss text-forest shadow-[2px_2px_0_rgba(35,72,54,0.15)]">
           <Check className="size-5" strokeWidth={2.4} />
         </span>
         <div>
-          <p className="text-xs font-medium text-muted">Poptávka {leadId}</p>
-          <h2 className="text-xl font-semibold tracking-tight">Odesláno.</h2>
+          <p className="text-xs font-medium tracking-[0.08em] text-brass uppercase">Poptávka {leadId}</p>
+          <h2 className="font-display text-xl font-semibold tracking-tight">Odesláno.</h2>
           <p className="mt-1 text-sm text-muted">
             Ozveme se a domluvíme zaměření zdarma. {brand.responseTime}.
           </p>
@@ -52,7 +52,7 @@ export function SuccessScreen({
         </p>
       ) : null}
 
-      <dl className="divide-y divide-line rounded-xl border border-line text-sm">
+      <dl className="divide-y divide-line rounded-sm border border-line bg-card text-sm shadow-[2px_2px_0_rgba(35,72,54,0.08)]">
         <Recap label="Konstrukce" value={structure?.short ?? "—"} />
         <Recap label="Kotvení" value={anchoring?.title ?? "—"} />
         <Recap

@@ -86,14 +86,14 @@ export function Step5Contact({
   return (
     <div className="flex flex-col gap-1.5">
       <div>
-        <h2 className="text-base font-semibold tracking-tight">Orientační cena a kontakt</h2>
+        <h2 className="font-display text-lg font-semibold tracking-tight">Orientační cena a kontakt</h2>
         <p className="text-[11px] text-muted">{priceDisclaimer}</p>
       </div>
 
       <div className="grid gap-1.5 sm:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         {structure ? (
-          <div className="overflow-hidden rounded-lg border border-line bg-white">
-            <div className="relative aspect-[2.6/1] w-full bg-[#efe8dc]">
+          <div className="overflow-hidden rounded-sm border border-line bg-card shadow-[2px_2px_0_rgba(35,72,54,0.08)]">
+            <div className="relative aspect-[2.6/1] w-full bg-moss">
               <Image
                 src={structure.image}
                 alt={structure.title}
@@ -102,20 +102,20 @@ export function Step5Contact({
                 className="object-cover"
                 priority
               />
-              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-black/65 to-transparent px-2.5 py-2 pt-8 text-white">
-                <p className="text-sm font-semibold leading-snug">{structure.title}</p>
+              <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-forest-deep/80 to-transparent px-2.5 py-2 pt-8 text-white">
+                <p className="font-display text-sm font-semibold leading-snug">{structure.title}</p>
               </div>
             </div>
           </div>
         ) : null}
 
-        <div className="flex flex-col rounded-lg border border-line bg-paper px-3 py-2.5">
-          <p className="text-[10px] font-medium tracking-wide text-muted uppercase">
+        <div className="flex flex-col rounded-sm border border-line bg-moss/40 px-3 py-2.5 shadow-[2px_2px_0_rgba(35,72,54,0.08)]">
+          <p className="text-[10px] font-medium tracking-[0.12em] text-brass uppercase">
             Orientační pásmo bez DPH
           </p>
           <div className="relative mt-0.5">
             <p
-              className={`text-xl font-semibold tabular-nums leading-tight sm:text-2xl ${
+              className={`text-xl font-semibold tabular-nums leading-tight text-forest sm:text-2xl ${
                 priceUnlocked ? "" : "select-none blur-[6px]"
               }`}
               aria-hidden={!priceUnlocked}

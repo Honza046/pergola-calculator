@@ -24,9 +24,9 @@ export function Step2Dimensions({
   return (
     <div className="flex flex-col gap-2.5">
       <div className="flex items-end justify-between gap-3">
-        <h2 className="text-base font-semibold tracking-tight">Rozměry</h2>
+        <h2 className="font-display text-lg font-semibold tracking-tight">Rozměry</h2>
         <p className="text-right text-sm">
-          <span className="text-xl font-medium tracking-tight tabular-nums leading-none">
+          <span className="text-xl font-semibold tracking-tight tabular-nums leading-none text-forest">
             {formatArea(area)}
           </span>
           <span className="mt-0.5 block text-xs tabular-nums text-muted">
@@ -130,12 +130,12 @@ function DimensionControl({
         aria-label={label}
         className="relative flex h-7 w-full touch-none items-center select-none"
       >
-        <Slider.Track className="relative h-1.5 grow rounded-full bg-line">
-          <Slider.Range className="absolute h-full rounded-full bg-forest" />
+        <Slider.Track className="relative h-1.5 grow rounded-sm bg-line">
+          <Slider.Range className="absolute h-full rounded-sm bg-forest" />
         </Slider.Track>
         <Slider.Thumb
           aria-valuetext={formatMeters(value)}
-          className="block size-6 rounded-full border-[3px] border-forest bg-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
+          className="block size-5 rounded-[3px] border-2 border-forest bg-card shadow-[1px_1px_0_rgba(35,72,54,0.25)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-forest"
         />
       </Slider.Root>
       <div className="mt-1 flex justify-between text-[11px] text-muted">

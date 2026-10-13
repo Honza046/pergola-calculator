@@ -10,6 +10,7 @@
     "test": "tsx --test lib/calculator.test.ts"
   },
   "dependencies": {
+    "@ai-sdk/google": "^3.0.131",
     "@ai-sdk/openai": "^4.0.91",
     "@hookform/resolvers": "^5.9.1",
     "@radix-ui/react-slider": "^1.5.0",

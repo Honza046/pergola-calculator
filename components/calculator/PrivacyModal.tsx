@@ -40,10 +40,10 @@ export function PrivacyModal({ open, onClose }: { open: boolean; onClose: () => 
         role="dialog"
         aria-modal="true"
         aria-labelledby={titleId}
-        className="relative z-10 flex max-h-[min(80dvh,560px)] w-full max-w-lg flex-col overflow-hidden rounded-xl border border-line bg-card shadow-lg"
+        className="relative z-10 flex max-h-[min(80dvh,560px)] w-full max-w-lg flex-col overflow-hidden rounded-sm border border-line bg-card shadow-[4px_6px_0_rgba(24,33,25,0.08)]"
       >
         <div className="flex items-start justify-between gap-3 border-b border-line px-4 py-3">
-          <h2 id={titleId} className="text-base font-semibold tracking-tight">
+          <h2 id={titleId} className="font-display text-base font-semibold tracking-tight">
             {privacyNotice.title}
           </h2>
           <button

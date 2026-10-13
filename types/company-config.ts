@@ -228,7 +228,7 @@ export function normalizeCompanyConfig(input: Partial<CompanyConfig> & { company
     phone: (input.phone ?? "").trim(),
     email: (input.email ?? "").trim(),
     logoUrl: (input.logoUrl ?? "").trim(),
-    primaryColor: (input.primaryColor ?? "#1a1917").trim() || "#1a1917",
+    primaryColor: (input.primaryColor ?? "#234836").trim() || "#234836",
     enabledCategories: uniqueCategories,
     enabledTypes: uniqueTypes,
     enabledAddons: uniqueAddons,

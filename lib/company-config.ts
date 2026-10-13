@@ -26,7 +26,7 @@ export function defaultCompanyConfig(): CompanyConfig {
     phone: brand.phoneDisplay,
     email: brand.email,
     logoUrl: "",
-    primaryColor: "#1a1917",
+    primaryColor: "#234836",
     enabledCategories: [...structureGroups],
     enabledTypes: [...structureTypes],
     enabledAddons: ["led", "screens", "sensors", "heaterPrep", "glassWalls", "curtains"],
@@ -43,11 +43,22 @@ export function phoneToHref(phone: string) {
 }
 
 export function brandThemeStyle(config: CompanyConfig): CSSProperties {
-  const color = config.primaryColor || "#1a1917";
+  const color = config.primaryColor || "#234836";
   return {
     ["--forest" as string]: color,
-    ["--forest-deep" as string]: color,
+    ["--forest-deep" as string]: shadeDeep(color),
   };
+}
+
+function shadeDeep(hex: string) {
+  const raw = hex.replace("#", "");
+  if (raw.length !== 6) return hex;
+  const n = Number.parseInt(raw, 16);
+  if (Number.isNaN(n)) return hex;
+  const r = Math.max(0, ((n >> 16) & 255) - 28);
+  const g = Math.max(0, ((n >> 8) & 255) - 28);
+  const b = Math.max(0, (n & 255) - 28);
+  return `#${((r << 16) | (g << 8) | b).toString(16).padStart(6, "0")}`;
 }
 
 export function filterGroupsByConfig(config: CompanyConfig): StructureGroup[] {

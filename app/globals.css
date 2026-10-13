@@ -1,16 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  --paper: #f4f2ee;
-  --card: #fffcf8;
-  --ink: #141311;
-  --muted: #6b6560;
-  --line: #e3ddd4;
-  --forest: #1a1917;
-  --forest-deep: #000000;
-  --moss: #f3eee4;
-  --brass: #9a7340;
+  /* Venkovní ateliér: chladný kámen + borovicová zeleň (mimo AI cream/černý SaaS) */
+  --paper: #e4eae3;
+  --card: #f8f9f6;
+  --ink: #182119;
+  --muted: #5a655c;
+  --line: #c8d0c7;
+  --forest: #234836;
+  --forest-deep: #163528;
+  --moss: #d7e3d6;
+  --brass: #6e7f5a;
   --danger: #9f2d2d;
+  --paper-glow: rgba(35, 72, 54, 0.07);
 }
 
 @theme inline {
@@ -37,14 +39,39 @@ html {
 body {
   background-color: var(--paper);
   color: var(--ink);
+  background-image:
+    radial-gradient(ellipse 90% 55% at 8% -10%, var(--paper-glow), transparent 55%),
+    radial-gradient(ellipse 70% 45% at 100% 0%, rgba(110, 127, 90, 0.1), transparent 50%),
+    linear-gradient(165deg, #eef2ec 0%, var(--paper) 42%, #dde5db 100%);
+  background-attachment: fixed;
 }
 
 body:has(.embed-root) {
   background: transparent;
+  background-image: none;
+}
+
+/* Jemná „dílenská“ mřížka místo flat AI plochy */
+.atelier-shell {
+  position: relative;
+}
+
+.atelier-shell::before {
+  content: "";
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  opacity: 0.35;
+  background-image:
+    linear-gradient(rgba(24, 33, 25, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(24, 33, 25, 0.035) 1px, transparent 1px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(180deg, black 0%, transparent 70%);
 }
 
 ::selection {
-  background: #efe4d2;
+  background: #c5d6c4;
 }
 
 @media (prefers-reduced-motion: reduce) {

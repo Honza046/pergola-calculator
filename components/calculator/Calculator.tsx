@@ -208,7 +208,8 @@ export function Calculator({
       className="w-full"
       style={brandThemeStyle(brandConfig)}
     >
-      <div className="rounded-xl border border-line bg-card">
+      <div className="atelier-shell overflow-hidden rounded-md border border-line bg-card shadow-[4px_6px_0_rgba(24,33,25,0.06)]">
+        <div className="h-1.5 bg-forest" aria-hidden="true" />
         {submission ? (
           <div className="p-4 sm:p-5">
             <SuccessScreen
@@ -221,15 +222,17 @@ export function Calculator({
           </div>
         ) : (
           <>
-            <div className="border-b border-line px-3 py-1.5 sm:px-3.5">
+            <div className="relative border-b border-line px-3 py-2.5 sm:px-4">
               <ProgressBar step={step} onStep={(next) => next < step && goTo(next)} />
-              <div className="mt-1 flex items-baseline justify-between gap-3">
+              <div className="mt-2 flex items-baseline justify-between gap-3 border-t border-dashed border-line/80 pt-2">
                 <p className="min-w-0 truncate text-xs text-muted">
                   <SummaryLine draft={draft} quote={quote} step={step} />
                 </p>
                 {/* Step 5 shows the price in the contact card — keep the shell header free of a duplicate. */}
                 {step < 5 ? (
-                  <p className="shrink-0 text-right text-[11px] text-muted">Cena na konci</p>
+                  <p className="shrink-0 text-right text-[10px] font-medium tracking-[0.12em] text-brass uppercase">
+                    Cena na konci
+                  </p>
                 ) : null}
               </div>
               {step === 5 ? (
@@ -250,7 +253,7 @@ export function Calculator({
               ) : null}
             </div>
 
-            <div className="px-3 py-1.5 sm:px-3.5">
+            <div className="relative px-3 py-3 sm:px-4">
               <AnimatePresence mode="wait" initial={false} custom={direction}>
                 <motion.div
                   key={step}
@@ -343,15 +346,15 @@ export function Calculator({
               </AnimatePresence>
             </div>
 
-            <div className="border-t border-line px-3 py-1.5 sm:px-3.5">
+            <div className="border-t border-line bg-moss/40 px-3 py-2.5 sm:px-4">
               {flowError ? (
-                <p role="alert" className="mb-1 text-xs text-danger">
+                <p role="alert" className="mb-1.5 text-xs text-danger">
                   {flowError}
                 </p>
               ) : null}
               <div className="flex items-center gap-2">
                 {step > 1 ? (
-                  <Button variant="secondary" onClick={() => goTo((step - 1) as StepId)} className="h-9 w-20">
+                  <Button variant="secondary" onClick={() => goTo((step - 1) as StepId)} className="h-10 w-20">
                     Zpět
                   </Button>
                 ) : null}
@@ -360,12 +363,12 @@ export function Calculator({
                     type="submit"
                     form="lead-form"
                     disabled={submitting}
-                    className="h-9 min-h-9 flex-1 whitespace-normal py-1.5 leading-snug"
+                    className="h-10 min-h-10 flex-1 whitespace-normal py-1.5 leading-snug"
                   >
                     {submitting ? "Odesíláme…" : nextLabels[5]}
                   </Button>
                 ) : (
-                  <Button onClick={continueFlow} className="h-9 flex-1">
+                  <Button onClick={continueFlow} className="h-10 flex-1">
                     {nextLabels[step]}
                   </Button>
                 )}
