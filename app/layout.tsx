@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import { Fraunces, IBM_Plex_Sans } from "next/font/google";
+import { Analytics } from "@vercel/analytics/next";
 
 import { brand } from "@/lib/brand";
 
@@ -36,7 +37,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html lang="cs" className={`${plexSans.variable} ${fraunces.variable} h-full antialiased`}>
-      <body className="min-h-full bg-paper font-sans text-ink">{children}</body>
+      <body className="min-h-full bg-paper font-sans text-ink">
+        {children}
+        <Analytics />
+      </body>
     </html>
   );
 }
