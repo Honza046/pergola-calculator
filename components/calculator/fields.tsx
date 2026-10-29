@@ -1,5 +1,14 @@
 import type { ReactNode } from "react";
 
+export function StepIntro({ title, hint }: { title: string; hint: string }) {
+  return (
+    <div className="mb-0.5">
+      <h2 className="font-display text-lg font-semibold tracking-tight">{title}</h2>
+      <p className="text-[11px] leading-snug text-muted">{hint}</p>
+    </div>
+  );
+}
+
 export function Field({
   id,
   label,

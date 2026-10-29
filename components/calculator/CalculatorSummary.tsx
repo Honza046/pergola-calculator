@@ -38,7 +38,7 @@ export function SummaryLine({
     }
   }
 
-  if (!parts.length) return <span className="text-muted">Vyberte konstrukci</span>;
+  if (!parts.length) return <span className="text-muted">Začněte výběrem produktu</span>;
   return <span className="truncate">{parts.join(" · ")}</span>;
 }
 

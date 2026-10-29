@@ -3,7 +3,7 @@
 import { Camera, X } from "lucide-react";
 import { useRef, useState } from "react";
 
-import { Field } from "@/components/calculator/fields";
+import { Field, StepIntro } from "@/components/calculator/fields";
 import { fieldClass } from "@/components/calculator/styles";
 import { timelineCatalog } from "@/lib/catalog";
 import { cn } from "@/lib/cn";
@@ -56,7 +56,10 @@ export function Step4Location({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <h2 className="font-display text-lg font-semibold tracking-tight">Místo a termín</h2>
+      <StepIntro
+        title="Místo a termín"
+        hint="Stačí město, PSČ a kdy to chcete. Fotku místa můžete přidat, ale není nutná."
+      />
 
       <div className="grid gap-1.5 sm:grid-cols-[minmax(0,1fr)_120px]">
         <Field id="location-city" label="Město" error={errors.city}>

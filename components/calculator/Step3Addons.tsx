@@ -3,6 +3,7 @@
 import { Check, Minus, Plus } from "lucide-react";
 import Image from "next/image";
 
+import { StepIntro } from "@/components/calculator/fields";
 import { optionCard } from "@/components/calculator/styles";
 import { addonCatalog, screenSidesLabel } from "@/lib/catalog";
 import { isAddonEnabled, resolveCompanyConfig } from "@/lib/company-config";
@@ -29,10 +30,10 @@ export function Step3Addons({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="flex items-end justify-between gap-2">
-        <h2 className="font-display text-lg font-semibold tracking-tight">Doplňky</h2>
-        <p className="text-[11px] text-muted">Ukázkový výběr — ceny na míru</p>
-      </div>
+      <StepIntro
+        title="Doplňky"
+        hint="Zapněte, co chcete v nabídce. Nic není povinné, ceny dopočítáme na míru."
+      />
 
       <div className="grid gap-1 sm:grid-cols-2">
         {showLed ? (

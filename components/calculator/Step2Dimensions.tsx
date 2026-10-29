@@ -3,6 +3,7 @@
 import * as Slider from "@radix-ui/react-slider";
 import { useEffect, useState } from "react";
 
+import { StepIntro } from "@/components/calculator/fields";
 import { fieldClass } from "@/components/calculator/styles";
 import { areaSquareMeters, dimensionsConfig } from "@/lib/calculator";
 import { cn } from "@/lib/cn";
@@ -23,9 +24,14 @@ export function Step2Dimensions({
 
   return (
     <div className="flex flex-col gap-2.5">
-      <div className="flex items-end justify-between gap-3">
-        <h2 className="font-display text-lg font-semibold tracking-tight">Rozměry</h2>
-        <p className="text-right text-sm">
+      <div className="flex items-start justify-between gap-3">
+        <div className="min-w-0 flex-1">
+          <StepIntro
+            title="Rozměry"
+            hint="Upravte šířku a hloubku posuvníkem nebo číslem. Plocha se počítá hned."
+          />
+        </div>
+        <p className="shrink-0 pt-0.5 text-right text-sm">
           <span className="text-xl font-semibold tracking-tight tabular-nums leading-none text-forest">
             {formatArea(area)}
           </span>

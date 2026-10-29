@@ -4,6 +4,7 @@ import { Check } from "lucide-react";
 import Image from "next/image";
 import { useEffect, useMemo, useState } from "react";
 
+import { StepIntro } from "@/components/calculator/fields";
 import {
   anchoringCatalog,
   structureCatalog,
@@ -69,10 +70,7 @@ export function Step1Type({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div className="flex items-end justify-between gap-2">
-        <h2 className="font-display text-lg font-semibold tracking-tight">Typ konstrukce</h2>
-        <p className="text-[11px] text-muted">{items.length} varianty</p>
-      </div>
+      <StepIntro title="Vyberte produkt" hint="Kategorie, varianta a kotvení. Zbytek v dalších krocích." />
 
       <div className="flex flex-wrap gap-0.5 rounded-sm border border-line bg-moss/50 p-0.5">
         {groups.map((id) => {
@@ -93,7 +91,7 @@ export function Step1Type({
         })}
       </div>
 
-      <div className="grid grid-cols-4 gap-1">
+      <div className="grid grid-cols-2 gap-1 sm:grid-cols-4">
         {items.map((item) => {
           const active = structureType === item.id;
           return (
@@ -115,12 +113,14 @@ export function Step1Type({
                   src={item.image}
                   alt=""
                   fill
-                  sizes="(max-width: 640px) 25vw, 160px"
+                  sizes="(max-width: 640px) 45vw, 140px"
                   className="object-cover"
                 />
               </span>
               <span className="flex flex-col gap-0.5 px-1.5 py-1 pr-5">
-                <span className="truncate text-[11px] font-medium leading-tight sm:text-xs">{item.short}</span>
+                <span className="truncate text-[11px] font-semibold leading-tight text-forest sm:text-xs">
+                  {item.short}
+                </span>
                 <span className="line-clamp-2 text-[10px] leading-snug text-muted">{item.description}</span>
               </span>
               <ChoiceMark active={active} />
@@ -132,7 +132,7 @@ export function Step1Type({
 
       <div>
         <p className="mb-1 text-xs font-medium">Kotvení</p>
-        <div className="grid grid-cols-2 gap-1">
+        <div className="grid grid-cols-2 gap-1.5">
           {(["wall", "freestanding"] as const).map((id) => {
             const active = anchoring === id;
             return (
@@ -142,7 +142,7 @@ export function Step1Type({
                 aria-pressed={active}
                 onClick={() => onAnchoring(active ? null : id)}
                 className={cn(
-                  "rounded-lg border bg-white px-2.5 py-1.5 text-left text-xs transition sm:text-sm",
+                  "rounded-lg border bg-white px-2.5 py-2 text-left text-xs transition sm:text-sm",
                   "focus-visible:ring-2 focus-visible:ring-ink/20 focus-visible:outline-none",
                   active
                     ? "border-forest shadow-[2px_2px_0_rgba(35,72,54,0.2)]"

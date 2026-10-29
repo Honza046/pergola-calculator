@@ -5,7 +5,7 @@ import { useState } from "react";
 import { Controller, useForm, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
-import { Field } from "@/components/calculator/fields";
+import { Field, StepIntro } from "@/components/calculator/fields";
 import { PrivacyModal } from "@/components/calculator/PrivacyModal";
 import { fieldClass } from "@/components/calculator/styles";
 import { priceDisclaimer, structureCatalog } from "@/lib/catalog";
@@ -85,10 +85,7 @@ export function Step5Contact({
 
   return (
     <div className="flex flex-col gap-1.5">
-      <div>
-        <h2 className="font-display text-lg font-semibold tracking-tight">Orientační cena a kontakt</h2>
-        <p className="text-[11px] text-muted">{priceDisclaimer}</p>
-      </div>
+      <StepIntro title="Dokončení" hint={priceDisclaimer} />
 
       <div className="grid gap-1.5 sm:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         {structure ? (

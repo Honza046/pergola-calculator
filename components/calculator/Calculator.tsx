@@ -22,10 +22,10 @@ import type { Anchoring, CalculatorDraft, ContactDetails, StepId, StructureType 
 import type { CompanyConfig } from "@/types/company-config";
 
 const nextLabels: Record<StepId, string> = {
-  1: "Další",
-  2: "Další",
-  3: "Další",
-  4: "Zobrazit cenu",
+  1: "Pokračovat na rozměry",
+  2: "Pokračovat na doplňky",
+  3: "Pokračovat na místo",
+  4: "Pokračovat na dokončení",
   5: "Odeslat poptávku",
 };
 
@@ -224,7 +224,7 @@ export function Calculator({
           <>
             <div className="relative border-b border-line px-3 py-2.5 sm:px-4">
               <ProgressBar step={step} onStep={(next) => next < step && goTo(next)} />
-              <div className="mt-2 flex items-baseline justify-between gap-3 border-t border-dashed border-line/80 pt-2">
+              <div className="mt-2 flex items-baseline justify-between gap-3">
                 <p className="min-w-0 truncate text-xs text-muted">
                   <SummaryLine draft={draft} quote={quote} step={step} />
                 </p>

@@ -13,11 +13,11 @@ export const priceDisclaimer =
 export const primaryCta = "Odeslat poptávku a rezervovat zaměření zdarma";
 
 export const calculatorSteps: Array<{ id: StepId; label: string; short: string }> = [
-  { id: 1, label: "Konstrukce", short: "Typ" },
+  { id: 1, label: "Produkt", short: "Produkt" },
   { id: 2, label: "Rozměry", short: "Rozměry" },
   { id: 3, label: "Doplňky", short: "Doplňky" },
   { id: 4, label: "Lokalita", short: "Místo" },
-  { id: 5, label: "Poptávka", short: "Kontakt" },
+  { id: 5, label: "Dokončení", short: "Dokončení" },
 ];
 
 export const structureGroupCatalog: Record<StructureGroup, { title: string; short: string }> = {
